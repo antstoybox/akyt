@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { ALL_QUESTIONS } from './constants.js';
 
 function App() {
-  //
 
   const [questions, setQuestions] = useState([]);
   const [currQuestion, setCurrQuestion] = useState('');
