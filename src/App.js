@@ -1,23 +1,61 @@
-import logo from './logo.svg';
 import './App.css';
+import { useEffect, useState } from 'react';
+
+import { ALL_QUESTIONS } from './constants.js';
 
 function App() {
+
+  const [questions, setQuestions] = useState([]);
+  const [currQuestion, setCurrQuestion] = useState('');
+
+  useEffect(() => {
+    selectQuestion();
+  }, [questions]);
+
+  const selectQuestion = () => {
+    const index = Math.floor(Math.random() * questions.length);
+    setCurrQuestion(questions[index]);
+    questions.splice(index, 1);
+    if (questions.length === 0) {
+      setCurrQuestion('');
+    }
+  }
+
+  const newGame = () => {
+    setQuestions([...ALL_QUESTIONS]);
+  }
+
+  console.log(questions)
+  console.log(currQuestion);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {
+        questions.length === 0 && (
+          <div className="card start">
+            <div className="logo">
+              <div>
+                <p className="title">AKYT?</p>
+                <p className="title">(askit)</p>
+              </div>
+            </div>
+            <div className="description">
+              <div>
+                <p className="description-text"> A couple's question game inspired by our relationship. Created by Anthony and Yutong. Happy 6 months babe!</p>
+                <button className="btn new-game" onClick={newGame}>New Game</button>
+              </div>
+            </div>
+          </div>
+        )
+      }
+      {
+        questions.length > 0 && (
+          <div className="card flip-horizontal-bottom">
+            <p className="question">{currQuestion}</p>
+            <button className="btn bottom-right" onClick={selectQuestion}>Next</button>
+          </div>
+        )
+      }
     </div>
   );
 }
